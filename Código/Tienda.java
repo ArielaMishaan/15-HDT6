@@ -40,9 +40,15 @@ public class Tienda {
 
         for (String linea : lineasInventario) {
 
-            String [] productoString = linea.split(" | ");
+            String [] productoString = linea.split("\\|");
+            
             String tipo = productoString[0];
+            tipo = tipo.trim();
+            //tipo.replaceFirst("^\\s*", "");
+
             String producto = productoString[1];
+            producto = producto.trim();
+            //producto = producto.replaceFirst("^\\s*", "");
 
             inventario.putIfAbsent(tipo, new ArrayList<String>());
             inventario.get(tipo).add(producto);            
@@ -63,6 +69,28 @@ public class Tienda {
     }
 
     /**
+     * Verifica que el usuario ingresó una categoría correcta.
+     * @param categoria
+     * @return
+     */
+    public boolean verificarCategoria(String categoria){
+        boolean resultado = false;
+
+        if (categoria.equalsIgnoreCase("Mueble de terraza") |
+            categoria.equalsIgnoreCase("Sillones de masaje")|
+            categoria.equalsIgnoreCase("Bebidas")|
+            categoria.equalsIgnoreCase("Condimentos")|
+            categoria.equalsIgnoreCase("Frutas")|
+            categoria.equalsIgnoreCase("Carnes")| 
+            categoria.equalsIgnoreCase("Lácteos")){
+
+                resultado = true;
+        }
+
+        return resultado;
+    }
+   
+    /**
      * Retorna la categoría de un producto específico. 
      * @param nombreProducto
      * @return resultado
@@ -76,6 +104,10 @@ public class Tienda {
             if(lista.contains(nombreProducto)){
                 resultado = entrada.getKey();
             }
+        }
+
+        if(resultado.equals("")){
+            resultado = "No se encontró el producto";
         }
 
         return resultado;
@@ -105,10 +137,9 @@ public class Tienda {
 
     /**
      * Muestra todos los productos del carrito, ordenados por categoría
-     * @param nombreProducto
      * @return resultado
      */
-    public String mostrarInfoProducto(String nombreProducto){
+    public String mostrarInfoProducto(){
         String resultado = "\nTODOS LOS PRODUCTOS DE SU CARRITO, ORDENADOS POR CATEGORÍA";
 
         for (Map.Entry<String, ArrayList<String>> entrada : carrito.entrySet()) {
