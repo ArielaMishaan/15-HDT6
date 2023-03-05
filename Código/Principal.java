@@ -22,7 +22,7 @@ public class Principal{
         menu = menu + "\n\nSeleccione el tipo de Map con el que quiere que se realicen las operaciones de este programa. ";
         menu = menu + "\n\n1. HashMap\n2. Linked HashMap \n3. Hash Tree.";
 
-        while(opcion >= 0 && opcion <= 3){
+        while(opcion >= 0 && opcion < 4){
 
             try {
                 System.out.println(menu);
@@ -38,6 +38,7 @@ public class Principal{
                 while(opcion2 >= 0 && opcion2 <7){
                     
                     try {
+                        System.out.println("\n\n--------------------------------");
                         System.out.println("\nBienvenido a la tienda online.");
                         System.out.println("--------------------------------");
                         System.out.println("\n1. Agregar un producto al carrito. \n2. Mostrar categoría de un producto \n3. Mostrar datos de los productos en el carrito \n4. Mostrar datos de los productos en el carrito (ordenados por categoría) \n5. Mostrar productos del inventario \n6. Mostrar productos del inventario (ordenados por categoría)\n7. Salir");
@@ -55,7 +56,13 @@ public class Principal{
                                 if(tienda.verificarCategoria(categoria)){
                                     System.out.println("\nEscriba el nombre del producto que quiere agregar a su carrito:");
                                     String producto = teclado.nextLine();
-                                    tienda.agregarProductoCarrito(categoria, producto);
+
+                                    if(tienda.verificarProducto(producto)){
+                                        tienda.agregarProductoCarrito(categoria, producto);
+                                    }
+                                    else{
+                                        System.out.println("\nLo sentimos. No se pudo agregar el producto porque no existe en el inventario.");
+                                    }
                                 }
                                 else{
                                     System.out.println("\nLo sentimos. No se pudo agregar el producto porque la categoría que ingresó no existe en el inventario.");
@@ -66,7 +73,7 @@ public class Principal{
                                 
                                 System.out.println("\nEscriba el nombre del producto: ");
                                 String producto2 = teclado.nextLine();
-                                System.out.println(tienda.mostrarCategoriaProducto(producto2));
+                                System.out.println("\nCategoría del producto " + producto2 +": " + tienda.mostrarCategoriaProducto(producto2));
 
                                 break;
                             
@@ -96,9 +103,9 @@ public class Principal{
                         System.out.println("\nEntrada incorrecta. Verificar que el tipo de dato ingresado sea el solicitado.");
                     }
                 }
+            } 
 
-
-            } catch (Exception e) {
+            catch (Exception e) {
                 // TODO: handle exception
                 teclado.nextLine();
                 System.out.println("\nEntrada incorrecta. Verificar que el tipo de dato ingresado sea el solicitado.");

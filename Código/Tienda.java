@@ -63,9 +63,8 @@ public class Tienda {
      */
     public void agregarProductoCarrito(String nombreCategoria, String nombreProducto){
 
-        //suponiendo que se le ingresa correctamente el nombre de la categoría disponible (esto se debe controlar en la clase principal)
-        inventario.putIfAbsent(nombreCategoria, new ArrayList<String>());
-        inventario.get(nombreCategoria).add(nombreProducto);
+        carrito.putIfAbsent(nombreCategoria, new ArrayList<String>());
+        carrito.get(nombreCategoria).add(nombreProducto);
     }
 
     /**
@@ -90,6 +89,20 @@ public class Tienda {
         return resultado;
     }
    
+    public boolean verificarProducto(String producto){
+        boolean resultado = false;
+        
+        for(Map.Entry<String, ArrayList<String>> entrada: inventario.entrySet()){
+            
+            ArrayList<String> categoria = entrada.getValue();
+            if(categoria.contains(producto)){
+                resultado = true;
+            }
+        }
+
+        return resultado;
+    }
+
     /**
      * Retorna la categoría de un producto específico. 
      * @param nombreProducto
@@ -102,7 +115,7 @@ public class Tienda {
             
             ArrayList<String> lista = entrada.getValue();
             if(lista.contains(nombreProducto)){
-                resultado = entrada.getKey();
+                resultado =  entrada.getKey();
             }
         }
 
@@ -120,15 +133,16 @@ public class Tienda {
     public String mostrarDatosCarrito(){
         String resultado = "";
         resultado = resultado + "\nTODOS LOS PRODUCTOS DE SU CARRITO: ";
+        ArrayList<String> productosMostrados = new ArrayList<String>();
 
         for (Map.Entry<String, ArrayList<String>> entrada : carrito.entrySet()) {
             
-            ArrayList<String> productosMostrados = new ArrayList<String>();
             for (String producto : entrada.getValue()) {
 
                 if(!productosMostrados.contains(producto)){
                     resultado = resultado + "\n\n" + producto + "\n  - Cantidad: " + Collections.frequency(entrada.getValue(), producto) + "\n  - Categoría: " + mostrarCategoriaProducto(producto);
                 }
+                productosMostrados.add(producto);
             }
         }
 
@@ -141,17 +155,18 @@ public class Tienda {
      */
     public String mostrarInfoProducto(){
         String resultado = "\nTODOS LOS PRODUCTOS DE SU CARRITO, ORDENADOS POR CATEGORÍA";
+        ArrayList<String> productosMostrados = new ArrayList<String>();
 
         for (Map.Entry<String, ArrayList<String>> entrada : carrito.entrySet()) {
 
-            resultado = resultado + "\n" + entrada.getKey().toUpperCase() + "\n\n-----------------------------";
-            ArrayList<String> productosMostrados = new ArrayList<String>();
+            resultado = resultado + "\n\n" + entrada.getKey().toUpperCase() + "\n-----------------------------";
             
             for (String producto : entrada.getValue()) {
 
                 if(!productosMostrados.contains(producto)){
-                    resultado = resultado + "\n\n" + producto + " - Cantidad: " + Collections.frequency(entrada.getValue(), producto);
+                    resultado = resultado + "\n" + producto + " - Cantidad: " + Collections.frequency(entrada.getValue(), producto);
                 }
+                productosMostrados.add(producto);
             }
         }
 
@@ -166,15 +181,16 @@ public class Tienda {
         String resultado = "";
 
         resultado = resultado + "\nTODOS LOS PRODUCTOS DEL INVENTARIO: ";
+        ArrayList<String> productosMostrados = new ArrayList<String>();
 
         for (Map.Entry<String, ArrayList<String>> entrada : inventario.entrySet()) {
             
-            ArrayList<String> productosMostrados = new ArrayList<String>();
             for (String producto : entrada.getValue()) {
 
                 if(!productosMostrados.contains(producto)){
                     resultado = resultado + "\n\n" + producto + "\n  - Cantidad: " + Collections.frequency(entrada.getValue(), producto) + "\n  - Categoría: " + mostrarCategoriaProducto(producto);
                 }
+                productosMostrados.add(producto);
             }
         }
         return resultado;
@@ -187,17 +203,18 @@ public class Tienda {
     public String mostrarInventarioPorTipo(){
 
         String resultado = "\nTODOS LOS PRODUCTOS DEL INVENTARIO, ORDENADOS POR CATEGORÍA";
+        ArrayList<String> productosMostrados = new ArrayList<String>();
 
         for (Map.Entry<String, ArrayList<String>> entrada : inventario.entrySet()) {
 
-            resultado = resultado + "\n" + entrada.getKey().toUpperCase() + "\n\n-----------------------------";
-            ArrayList<String> productosMostrados = new ArrayList<String>();
+            resultado = resultado + "\n\n" + entrada.getKey().toUpperCase() + "\n-----------------------------";
             
             for (String producto : entrada.getValue()) {
 
                 if(!productosMostrados.contains(producto)){
-                    resultado = resultado + "\n\n" + producto + " - Cantidad: " + Collections.frequency(entrada.getValue(), producto);
+                    resultado = resultado + "\n" + producto + " - Cantidad: " + Collections.frequency(entrada.getValue(), producto);
                 }
+                productosMostrados.add(producto);
             }
         }
 
